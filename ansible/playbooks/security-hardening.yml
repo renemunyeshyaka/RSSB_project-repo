@@ -1,0 +1,21 @@
+# Author: Jean René MUNYESHYAKA
+---
+- name: Security Hardening
+  hosts: k8s
+  become: yes
+  tasks:
+    - name: Ensure UFW is installed
+      apt:
+        name: ufw
+        state: present
+
+    - name: Enable UFW
+      ufw:
+        state: enabled
+        policy: deny
+
+    - name: Allow SSH
+      ufw:
+        rule: allow
+        port: 22
+        proto: tcp

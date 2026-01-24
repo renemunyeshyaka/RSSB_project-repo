@@ -1,0 +1,34 @@
+terraform {
+  required_version = ">= 1.5.0"
+  required_providers {
+    libvirt = {
+      source  = "dmacvicar/libvirt"
+      version = "0.7.6"
+    }
+  }
+  backend "local" {
+    path = "./terraform.tfstate"
+  }
+}
+
+provider "libvirt" {
+  uri = "qemu:///session"  # Use user session instead of system
+}
+
+# Create a local pool in your home directory
+resource "libvirt_pool" "rssb" {
+  name = "rssb"
+  type = "dir"
+  path = "/home/${split("/", path.cwd)[2]}/libvirt-images"
+}
+
+# Create base OS image
+resource "libvirt_volume" "ubuntu_base" {
+  name   = "ubuntu22.04-base.qcow2"
+  source = "https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img"
+  pool   = libvirt_pool.rssb.name
+  format = "qcow2"
+}
+
+# ... [REST OF YOUR MAIN.TF CONTENT - KEEP EVERYTHING ELSE THE SAME]
+# BUT CHANGE ALL "pool = 'default'" TO "pool = libvirt_pool.rssb.name"

@@ -1,0 +1,16 @@
+# Author: Jean René MUNYESHYAKA
+---
+- name: Node Configuration
+  hosts: k8s
+  become: yes
+  tasks:
+    - name: Ensure Docker is installed
+      apt:
+        name: docker.io
+        state: present
+
+    - name: Add user to docker group
+      user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: yes

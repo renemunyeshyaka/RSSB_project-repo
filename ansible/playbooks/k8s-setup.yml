@@ -1,0 +1,36 @@
+# Author: Jean René MUNYESHYAKA
+---
+- name: Configure Kubernetes Cluster
+  hosts: localhost
+  connection: local
+  pre_tasks:
+    - name: Check if kubectl is installed
+      command: which kubectl
+      register: kubectl_check
+      ignore_errors: yes
+
+    - name: Fail if kubectl is not installed
+      fail:
+        msg: "kubectl must be installed on the system before running this playbook. Please install it manually."
+      when: kubectl_check.rc != 0
+  tasks:
+    - name: Set up kubeconfig
+      shell: |
+        kind get kubeconfig --name rssb-cluster > ~/.kube/config
+        chmod 600 ~/.kube/config
+
+    - name: Verify cluster
+      shell: kubectl get nodes
+      register: nodes
+      
+    - name: Display nodes
+      debug:
+        msg: "{{ nodes.stdout }}"
+
+    - name: Install Calico CNI
+      shell: |
+        kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+      when: "'NotReady' in nodes.stdout"
+
+    - name: Wait for nodes to be ready
+      shell: kubectl wait --for=condition=Ready nodes --all --timeout=300s

@@ -1,0 +1,59 @@
+---
+- name: Kubernetes Security Hardening
+  hosts: all
+  become: yes
+  tasks:
+    - name: Disable swap
+      shell: swapoff -a
+      ignore_errors: yes
+
+    - name: Disable swap in fstab
+      lineinfile:
+        path: /etc/fstab
+        regexp: '^.*swap.*$'
+        state: absent
+
+    - name: Configure sysctl parameters
+      sysctl:
+        name: "{{ item.name }}"
+        value: "{{ item.value }}"
+        sysctl_set: yes
+        state: present
+        reload: yes
+      loop:
+        - { name: 'net.bridge.bridge-nf-call-ip6tables', value: '1' }
+        - { name: 'net.bridge.bridge-nf-call-iptables', value: '1' }
+        - { name: 'net.ipv4.ip_forward', value: '1' }
+        - { name: 'fs.inotify.max_user_watches', value: '524288' }
+
+    - name: Install auditd
+      apt:
+        name: auditd
+        state: present
+
+    - name: Configure audit rules for Kubernetes
+      copy:
+        content: |
+          -w /etc/kubernetes/ -p wa -k k8s_config
+          -w /var/lib/kubelet/ -p wa -k k8s_kubelet
+          -w /etc/kubernetes/manifests/ -p wa -k k8s_manifests
+        dest: /etc/audit/rules.d/k8s.rules
+        owner: root
+        group: root
+        mode: 0640
+
+    - name: Restart auditd
+      systemd:
+        name: auditd
+        state: restarted
+        enabled: yes
+
+- name: Configure Kubernetes Network Policies
+  hosts: master
+  become: yes
+  tasks:
+    - name: Install Calico CNI
+      shell: |
+        kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+      args:
+        creates: /var/lib/rancher/k3s/server/manifests/calico.yaml
