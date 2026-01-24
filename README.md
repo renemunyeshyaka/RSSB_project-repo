@@ -183,13 +183,13 @@ Backup/restore strategy for cluster state (Velero).
 Multi-environment setup (dev/staging/prod).
 
 
-## 📋 Project Overview
+## Project Overview
 Automated Kubernetes cluster deployment with CI/CD, monitoring, and security hardening. Hosts an API Rate Limiter as a sample application.
 
-## 🏗️ Architecture
+## Architecture
 ![Architecture Diagram](docs/architecture.svg)
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Prerequisites
 - VirtualBox 6.1+ / Multipass / Libvirt
@@ -206,7 +206,7 @@ Automated Kubernetes cluster deployment with CI/CD, monitoring, and security har
 5. Deploy monitoring stack
 6. Deploy sample application
 
-## 📂 Repository Structure
+## Repository Structure
 
 
 ## 🔧 Components
@@ -216,7 +216,7 @@ Automated Kubernetes cluster deployment with CI/CD, monitoring, and security har
 - **CI/CD**: GitHub Actions for automated pipelines
 - **Monitoring**: Prometheus + Grafana stack
 
-## 📊 Monitoring
+##  Monitoring
 Access Grafana dashboard:
 ```bash
 kubectl port-forward svc/grafana 3000:3000 -n monitoring
