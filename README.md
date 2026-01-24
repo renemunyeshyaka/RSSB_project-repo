@@ -185,7 +185,7 @@ Multi-environment setup (dev/staging/prod).
 Automated Kubernetes cluster deployment with CI/CD, monitoring, and security hardening. Hosts an API Rate Limiter as a sample application.
 
 ## 🏗️ Architecture
-![Architecture Diagram](docs/architecture.png)
+![Architecture Diagram](docs/architecture.svg)
 
 ## 🚀 Quick Start
 
