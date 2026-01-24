@@ -46,7 +46,7 @@ RSSB_project-repo/
 └── .gitignore
 
 
-![Repository Structure](docs/architecture.png)
+![Repository Structure](docs/repository_structure.png)
 
 3. Step-by-Step Implementation Plan
 Phase 1: Environment & Version Control Setup
