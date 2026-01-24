@@ -12,7 +12,7 @@
 Objective: Implement an automated, secure, scalable Kubernetes cluster on a local/virtualized environment with CI/CD, monitoring, and a sample application.
 Tools: Terraform, Ansible, Kubernetes (K3s/Kind), GitHub Actions, Prometheus + Grafana, Docker.
 Application Example: API Rate Limiter (Go/Python microservice).
-Repo Name: RSSB_project-repo (public/private GitHub repository).
+Repo Name: RSSB_project-repo (public/private GitHub repository)..
 
 2. Repository Structure
 
