@@ -209,7 +209,7 @@ Automated Kubernetes cluster deployment with CI/CD, monitoring, and security har
 ## Repository Structure
 
 
-## 🔧 Components
+## Components
 - **Infrastructure**: Terraform for VM provisioning
 - **Configuration**: Ansible for K8s cluster setup
 - **Application**: API Rate Limiter (Go/Redis)
