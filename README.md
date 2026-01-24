@@ -1,6 +1,6 @@
 # Author: Jean René MUNYESHYAKA
 # RSSB_project-repo
-
+# Don't forget to Fork
 ## Task 3: Automation & Monitoring
 3.1 Implement a Kubernetes cluster deployed on a local machine or within a virtualized environment, using GitHub for version control and a CI/CD pipeline. Apply automation tools such as Terraform, Ansible, and Kubernetes manifests where applicable to provision the infrastructure, configure the cluster, and enforce security, consistency, and scalability. The solution should support hosting an example application, such as an API Rate Limiter hosted on GitHub or any other application of your choice.
 
@@ -44,6 +44,8 @@ RSSB_project-repo/
 ├── docs/                       # Documentation
 ├── README.md
 └── .gitignore
+
+# You will need to copy the repository structure above 
 
 
 ![Repository Structure](docs/repository_structure.png)
