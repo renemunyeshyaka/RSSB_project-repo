@@ -36,69 +36,98 @@ RSSB_project-repo/
 │   │   └── configmap.yaml
 │   ├── monitoring/
 │   │   ├── prometheus.yaml
-│   │   └── grafana.yaml
-│   └── ingress/
-├── app/                        # Sample application source code
-│   └── api-rate-limiter/
-├── scripts/                    # Helper scripts
-├── docs/                       # Documentation
-├── README.md
-└── .gitignore
 
-# You will need to copy the repository structure above 
+# RSSB Project Repository
 
+This repository provides a comprehensive solution for deploying, configuring, and managing the RSSB project infrastructure and applications. It leverages Kubernetes, Ansible, Terraform, and Go-based microservices to deliver a robust and scalable environment.
 
-![Repository Structure](docs/repository_structure.png)
+---
 
-3. Step-by-Step Implementation Plan
-Phase 1: Environment & Version Control Setup
-Create GitHub Repository
+## Table of Contents
 
-Initialize RSSB_project-repo with README, .gitignore (Terraform, Python, etc.).
+- [Repository Structure](#repository-structure)
+- [Getting Started](#getting-started)
+- [Application Overview](#application-overview)
+- [Monitoring & Observability](#monitoring--observability)
+- [Contributing](#contributing)
+- [License](#license)
 
-Set up branch protection rules (main branch).
+---
 
-Local Development Environment
+## Repository Structure
 
-Install VirtualBox/Vagrant or use Multipass for lightweight VMs.
+- **ansible/**: Ansible playbooks and inventory for cluster setup and configuration
+- **app/**: Application source code (e.g., API rate limiter)
+- **archive/**: Archived or deprecated setup files
+- **docs/**: Documentation and architecture diagrams
+- **k8s-manifests/**: Kubernetes manifests for deployments, services, and monitoring
+- **kind-setup/**: KIND (Kubernetes in Docker) setup files
+- **scripts/**: Utility scripts for deployment and setup
+- **terraform/**: Terraform configuration for infrastructure provisioning
 
-Install required tools: Terraform, Ansible, kubectl, helm, Docker.
+---
 
-Phase 2: Infrastructure Provisioning with Terraform
-Define Terraform Configuration (terraform/)
+## Getting Started
 
-Provision 3 VMs (1 master, 2 workers) using a provider like libvirt, virtualbox, or proxmox.
+### Prerequisites
 
-Configure network, SSH keys, base OS (Ubuntu 22.04).
+Ensure the following tools are installed on your system:
 
-Output IP addresses for Ansible inventory.
+- Docker
+- Kubernetes (KIND or another distribution)
+- Ansible
+- Terraform
+- Go (for building application code)
 
-Automate Terraform via GitHub Actions
+### Setup Instructions
 
-Create workflow .github/workflows/terraform.yml to run terraform plan on PR, apply on merge to main.
+1. **Clone the repository:**
+	
+	git clone <repo-url>
+	cd RSSB_project-repo
+	```
+2. **Provision infrastructure with Terraform:**
+	
+	cd terraform
+	terraform init
+	terraform apply
+	```
+3. **Configure and set up the Kubernetes cluster using Ansible:**
+	
+	cd ../ansible
+	ansible-playbook -i inventory/hosts.ini playbooks/k8s-setup.yml
+	```
+4. **Deploy application and monitoring components:**
+	
+	cd ../k8s-manifests
+	kubectl apply -f api-rate-limiter/
+	kubectl apply -f monitoring/
+	```
 
-Phase 3: Kubernetes Cluster Setup with Ansible
-Ansible Playbooks (ansible/playbooks/)
+---
 
-k8s-setup.yml: Install K3s (lightweight Kubernetes) or use kubeadm.
+## Application Overview
 
-node-config.yml: Join worker nodes, configure networking (Flannel/Calico), set up storage.
+- **API Rate Limiter:**
+  - A Go-based microservice for API rate limiting, deployed via Kubernetes manifests.
 
-security-hardening.yml: Apply CIS benchmarks, set up RBAC, network policies.
+---
 
-Dynamic Inventory
+## Monitoring & Observability
 
-Use Terraform outputs to generate Ansible inventory automatically.
+- **Prometheus** and **Grafana** are deployed for monitoring and observability. Configuration files are available in `k8s-manifests/monitoring/`.
 
-CI Integration
+---
 
-Run Ansible playbook via GitHub Actions after Terraform apply.
+## Contributing
 
-Phase 4: CI/CD Pipeline for Application Deployment
-Build Pipeline (.github/workflows/deploy-app.yml)
+Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
 
-On push to main, build Docker image of API Rate Limiter.
+---
 
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 Push image to Docker Hub/GitHub Container Registry.
 
 Update Kubernetes manifests with new image tag.
@@ -218,5 +247,5 @@ Automated Kubernetes cluster deployment with CI/CD, monitoring, and security har
 
 ##  Monitoring
 Access Grafana dashboard:
-```bash
+
 kubectl port-forward svc/grafana 3000:3000 -n monitoring
