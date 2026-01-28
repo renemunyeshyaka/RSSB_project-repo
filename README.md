@@ -1,6 +1,10 @@
 # Author: Jean René MUNYESHYAKA
-# RSSB_project-repo
 # Don't forget to Fork
+
+Certainly, some files are missing for the project to function correctly on your computer after cloning from GitHub. To obtain all the necessary files, you need to fork this project.
+
+# RSSB_project-repo
+
 ## Task 3: Automation & Monitoring
 3.1 Implement a Kubernetes cluster deployed on a local machine or within a virtualized environment, using GitHub for version control and a CI/CD pipeline. Apply automation tools such as Terraform, Ansible, and Kubernetes manifests where applicable to provision the infrastructure, configure the cluster, and enforce security, consistency, and scalability. The solution should support hosting an example application, such as an API Rate Limiter hosted on GitHub or any other application of your choice.
 
